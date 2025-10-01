@@ -4,19 +4,26 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.subsystem.HelloWorld;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystem.FakeMotor;
 
 public class RobotContainer {
-  HelloWorld helloWorld;
+  private FakeMotor fakeMotorSubsystem;
+  private CommandXboxController joystick = new CommandXboxController(0);
 
   public RobotContainer() {
+    fakeMotorSubsystem = new FakeMotor();
+    SmartDashboard.putData(fakeMotorSubsystem);
+
     configureBindings();
-    helloWorld = new HelloWorld();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    joystick.a().onTrue(fakeMotorSubsystem.toggle());
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
